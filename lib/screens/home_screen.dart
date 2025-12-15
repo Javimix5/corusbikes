@@ -98,6 +98,24 @@ class _HomeScreenState extends State<HomeScreen> {
                               final station = viewModel.stations[i];
                               final isVirtual = station.isVirtual;
                               
+                              // Determinar color según disponibilidad
+                              Color backgroundColor;
+                              Color textColor;
+                              
+                              if (isVirtual) {
+                                backgroundColor = Colors.grey.withOpacity(0.2);
+                                textColor = Colors.grey[600]!;
+                              } else if (station.numBikesAvailable == 0) {
+                                backgroundColor = Colors.red.withOpacity(0.2);
+                                textColor = Colors.red[700]!;
+                              } else if (station.numBikesAvailable < 6) {
+                                backgroundColor = Colors.amber.withOpacity(0.2);
+                                textColor = Colors.amber[700]!;
+                              } else {
+                                backgroundColor = Colors.green.withOpacity(0.2);
+                                textColor = Colors.green[700]!;
+                              }
+                              
                               return Opacity(
                                 opacity: isVirtual ? 0.5 : 1.0,
                                 child: ListTile(
@@ -121,19 +139,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ? Icon(Icons.block, size: 16, color: Colors.grey)
                                       : Icon(Icons.arrow_forward_ios, size: 16),
                                   leading: CircleAvatar(
-                                    backgroundColor: isVirtual
-                                        ? Colors.grey.withOpacity(0.2)
-                                        : station.numBikesAvailable > 0 
-                                            ? Colors.green.withOpacity(0.2)
-                                            : Colors.red.withOpacity(0.2),
+                                    backgroundColor: backgroundColor,
                                     child: isVirtual
-                                        ? Icon(Icons.close, color: Colors.grey[600])
+                                        ? Icon(Icons.close, color: textColor)
                                         : Text(
                                             '${station.numBikesAvailable}',
                                             style: TextStyle(
-                                              color: station.numBikesAvailable > 0 
-                                                  ? Colors.green[700]
-                                                  : Colors.red[700],
+                                              color: textColor,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),

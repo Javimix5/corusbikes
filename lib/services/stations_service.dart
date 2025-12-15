@@ -10,10 +10,10 @@ class StationsService {
   // Cache
   List<Station>? _cachedStations;
   DateTime? _lastFetch;
-  final Duration _cacheDuration = Duration(minutes: 2); // Cache por 2 minutos
+  final Duration _cacheDuration = Duration(minutes: 5); // Cache por 5 minutos
 
   /// Obtiene la lista completa de estaciones con información estática y dinámica
-  /// Usa caché si los datos tienen menos de 2 minutos
+  /// Usa caché si los datos tienen menos de 5 minutos
   Future<List<Station>> fetchStations({bool forceRefresh = false}) async {
     // Verificar si hay datos en caché y no ha expirado
     if (!forceRefresh && 
