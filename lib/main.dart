@@ -12,14 +12,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'CorusBikes',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: ChangeNotifierProvider(
-        create: (context) => StationsViewModel(),
-        child: HomeScreen(),
+    return ChangeNotifierProvider(
+      create: (context) => StationsViewModel(),
+      child: MaterialApp(
+        title: 'CorusBikes',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        ),
+        home: HomeScreen(),
       ),
     );
   }

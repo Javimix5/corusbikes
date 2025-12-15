@@ -1,21 +1,19 @@
-// models/station.dart
 class Station {
   final String id;
   final String name;
-  final int capacity; // Puestos totales
+  final int capacity;
   final double lat;
   final double lon;
   
-  // Datos dinámicos (Status)
   int numBikesAvailable;
-  int numDocksAvailable; // Anclajes libres
-  int numEfitBikes; // Eléctricas
-  int numFitBikes;  // Mecánicas
+  int numDocksAvailable; 
+  int numEfitBikes; 
+  int numFitBikes; 
   bool isInstalled;
   bool isRenting;
-  int lastReported; // Timestamp
+  int lastReported;
 
-  bool isFavorite; // Estado local
+  bool isFavorite;
 
   Station({
     required this.id, required this.name, required this.capacity,
@@ -43,18 +41,39 @@ class Station {
 
   // Método para actualizar con datos dinámicos (Station Status)
   void updateStatus(Map<String, dynamic> json) {
-    numBikesAvailable = json['num_bikes_available'];
-    numDocksAvailable = json['num_docks_available'];
-    lastReported = json['last_reported'];
-    isInstalled = json['is_installed'] == 1;
-    isRenting = json['is_renting'] == 1;
+    numBikesAvailable = json['num_bikes_available'] ?? 0;
+    numDocksAvailable = json['num_docks_available'] ?? 0;
+    lastReported = json['last_reported'] ?? 0;
+    isInstalled = json['is_installed'] ?? false;
+    isRenting = json['is_renting'] ?? false;
 
-    // Lógica para tipos de bici (ignorar 'boost' según )
-    final types = json['num_bikes_available_types'];
-    if (types != null) {
-      numEfitBikes = types['efit'] ?? 0; // Eléctrica
-      numFitBikes = types['fit'] ?? 0;   // Mecánica
-      // Boost se ignora
+    numEfitBikes = 0;
+    numFitBikes = 0;
+    
+    final vehicleTypes = json['vehicle_types_available'];
+    
+    if (vehicleTypes != null && vehicleTypes is List) {
+      for (var typeInfo in vehicleTypes) {
+        if (typeInfo is Map) {
+          final typeId = (typeInfo['vehicle_type_id'] ?? '').toString().toUpperCase();
+          final count = typeInfo['count'] ?? 0;
+          
+          if (typeId == 'FIT') {
+            numFitBikes = count is int ? count : int.tryParse(count.toString()) ?? 0;
+          } else if (typeId == 'EFIT') {
+            numEfitBikes = count is int ? count : int.tryParse(count.toString()) ?? 0;
+          }
+          // BOOST se ignora ya que no hay en A Coruña
+        }
+      }
+    } else {
+      // Si no hay información de tipos, todas son mecánicas
+      numFitBikes = numBikesAvailable;
+      numEfitBikes = 0;
     }
   }
+  
+  bool get isVirtual => !isInstalled || !isRenting;
+  
+  bool get isActive => isInstalled && isRenting;
 }
