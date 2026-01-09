@@ -33,7 +33,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("CorusBikes", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              "CorusBikes",
+              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)
+            ),
+            SizedBox(width: 8),
+            Icon(Icons.pedal_bike, color: Colors.white),
+          ],
+        ),
         backgroundColor: Colors.blueAccent,
         actions: [
           IconButton(
@@ -129,8 +139,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   subtitle: Text(
                                     isVirtual
                                         ? "Estación no disponible"
-                                        : "Disponibles: ${station.numBikesAvailable} | "
-                                          "Libres: ${station.numDocksAvailable}",
+                                        : "Bicis disponibles: ${station.numBikesAvailable} | "
+                                          "Puestos libres: ${station.numDocksAvailable}",
                                     style: TextStyle(
                                       color: isVirtual ? Colors.grey : null,
                                     ),
