@@ -17,7 +17,10 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<StationsViewModel>(context, listen: false).fetchStations();
+      final vm = Provider.of<StationsViewModel>(context, listen: false);
+      if (vm.stations.isEmpty) {
+        vm.fetchStations();
+      }
     });
   }
 
@@ -106,9 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             itemCount: viewModel.stations.length,
                             itemBuilder: (ctx, i) {
                               final station = viewModel.stations[i];
-                              final isVirtual = station.isVirtual;
-                              
-                              // Determinar color según disponibilidad
+                              final isVirtual = station.isVirtual;                              
                               Color backgroundColor;
                               Color textColor;
                               

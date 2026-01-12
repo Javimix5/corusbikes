@@ -3,8 +3,10 @@ import '../models/station.dart';
 import '../services/stations_service.dart';
 
 class StationsViewModel extends ChangeNotifier {
-  final StationsService _stationsService = StationsService();
-  
+  final StationsService _stationsService;
+
+  StationsViewModel({StationsService? stationsService}) : _stationsService = stationsService ?? StationsService();
+
   List<Station> _stations = [];
   bool _isLoading = false;
   String _errorMessage = '';
@@ -45,6 +47,11 @@ class StationsViewModel extends ChangeNotifier {
       _isLoading = false;
       notifyListeners();
     }
+  }
+
+  void setStations(List<Station> stations) {
+    _stations = stations;
+    notifyListeners();
   }
 
   Future<void> refreshStations() async {

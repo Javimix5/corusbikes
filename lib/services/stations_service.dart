@@ -11,6 +11,10 @@ class StationsService {
   List<Station>? _cachedStations;
   DateTime? _lastFetch;
   final Duration _cacheDuration = Duration(minutes: 5); // Cache por 5 minutos
+  
+  final http.Client client;
+
+  StationsService({http.Client? client}) : client = client ?? http.Client();
 
   /// Obtiene la lista completa de estaciones con información estática y dinámica
   /// Usa caché si los datos tienen menos de 5 minutos
@@ -41,8 +45,8 @@ class StationsService {
   Future<List<Station>> _fetchStationsFromApi() async {
     // Llamamos a ambas APIs en paralelo
     final responses = await Future.wait([
-      http.get(Uri.parse(_infoUrl)),
-      http.get(Uri.parse(_statusUrl)),
+      client.get(Uri.parse(_infoUrl)),
+      client.get(Uri.parse(_statusUrl)),
     ]);
 
     if (responses[0].statusCode != 200 || responses[1].statusCode != 200) {
