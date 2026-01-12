@@ -2,7 +2,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/testing.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
 import 'package:corusbikes/services/stations_service.dart';
 import 'package:corusbikes/models/station.dart';
 

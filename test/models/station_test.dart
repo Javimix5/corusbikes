@@ -27,7 +27,7 @@ void main() {
       expect(station.isActive, true);
     });
 
-    // Test para verificar que isVirtual es true cuando la estación no está instalada o no está alquilando
+    // Test para verificar que isVirtual funciona correctamente
     test('isVirtual when not installed or not renting', () {
       final s = Station(
         id: '2', name: 'B', capacity: 5, lat: 0.0, lon: 0.0,
