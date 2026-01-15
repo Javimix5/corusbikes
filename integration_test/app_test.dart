@@ -1,3 +1,4 @@
+import 'package:integration_test/integration_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -5,7 +6,7 @@ import 'package:corusbikes/viewmodels/stations_vm.dart';
 import 'package:corusbikes/models/station.dart';
 import 'package:corusbikes/screens/home_screen.dart';
 
-void main(dynamic IntegrationTestWidgetsFlutterBinding) {
+void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   testWidgets('E2E: muestra lista y permite pulsar una estación', (tester) async {
